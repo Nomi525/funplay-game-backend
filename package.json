@@ -1,7 +1,7 @@
 {
-  "name": "pip-assignment-backend",
+  "name": "funplay-game-backend",
   "version": "0.0.1",
-  "description": "PIP - Assignment Backend",
+  "description": "FunPlay - FunPlay Game Backend",
   "author": "Noman Mansuri <noman.mansuri@azilen.com>",
   "private": true,
   "license": "UNLICENSED",

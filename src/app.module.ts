@@ -12,6 +12,8 @@ import { TransactionModule } from './modules/transaction/transaction.module';
 import NewTransactionSchema, {
   NewTransaction,
 } from './modules/transaction/entities/transaction.entity';
+import { RoleModule } from './modules/role/role.module';
+import RoleSchema, { Role } from './modules/role/entities/role.entity';
 // import express from 'express';
 
 @Module({
@@ -27,11 +29,13 @@ import NewTransactionSchema, {
       { name: User.name, schema: UserSchema },
       { name: Admin.name, schema: AdminSchema },
       { name: NewTransaction.name, schema: NewTransactionSchema },
+      { name: Role.name, schema: RoleSchema },
     ]),
     ScheduleModule.forRoot(),
     UserModule,
     AdminModule,
     TransactionModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

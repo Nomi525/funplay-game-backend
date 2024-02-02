@@ -29,8 +29,8 @@ async function bootstrap() {
   );
 
   const documentConfig = new DocumentBuilder()
-    .setTitle('PIP - Assignment Backend')
-    .setDescription('The PIP - Assignment Backend Project-Demo')
+    .setTitle('FunPlay - FunPlay Game Backend')
+    .setDescription('The FunPlay - FunPlay Game Backend')
     .setVersion('1.0')
     .addTag('PIP')
     .build();

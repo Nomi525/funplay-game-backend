@@ -3,12 +3,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { NewTransaction } from '../entities/transaction.entity';
 import Logger from 'src/core/Logger';
+import { Currency } from '../entities/Currency.entity';
 
 @Injectable()
 export default class TransactionRepository {
   constructor(
     @InjectModel(NewTransaction.name)
     private readonly transactionModel: Model<NewTransaction>,
+    @InjectModel(Currency.name)
+    private readonly currencyModel: Model<Currency>,
   ) {}
 
   public async getSingleTransactionData(data: any, filter?: any): Promise<any> {
@@ -19,7 +22,7 @@ export default class TransactionRepository {
       return await this.transactionModel.findOne(data);
     } catch (error) {
       Logger.error.error(
-        'user.repository --> getSingleTransactionData() indicates error',
+        'transaction.repository --> getSingleTransactionData() indicates error',
         error.message,
       );
       throw new BadRequestException(error.message);
@@ -34,7 +37,21 @@ export default class TransactionRepository {
       return await this.transactionModel.find(data);
     } catch (error) {
       Logger.error.error(
-        'user.repository --> getAllTransactionData() indicates error',
+        'transaction.repository --> getAllTransactionData() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
+  public async getAllCurrencyData(data: any, filter?: any): Promise<any> {
+    try {
+      Logger.access.info(
+        'transaction.repository --> info of getAllCurrencyData()',
+      );
+      return await this.currencyModel.find(data);
+    } catch (error) {
+      Logger.error.error(
+        'transaction.repository --> getAllCurrencyData() indicates error',
         error.message,
       );
       throw new BadRequestException(error.message);
