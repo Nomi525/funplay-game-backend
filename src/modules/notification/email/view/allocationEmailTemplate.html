@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #allocations {
+        font-family: Arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      #allocations td,
+      #allocations th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      #allocations tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      #allocations tr:hover {
+        background-color: #ddd;
+      }
+
+      #allocations th {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        background-color: #3498db;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center">
+      Active Allocation Status for Resigned Employees
+    </h1>
+
+    <table id="allocations">
+      <tr>
+        <th>SR.No</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Status</th>
+        <th>Relieving Date</th>
+        <th>Project Name</th>
+        <th>Allocation Start Date</th>
+        <th>Allocation End Date</th>
+      </tr>
+      {{#each allocationDetails}}
+      <tr>
+        <td style="text-align: center">{{inc @index}}</td>
+        <td style="text-align: center">{{this.firstName}}</td>
+        <td style="text-align: center">{{this.lastName}}</td>
+        <td style="text-align: center">{{this.status}}</td>
+        <td style="text-align: center">{{this.relievingDate}}</td>
+        <td style="text-align: center">{{this.projectName}}</td>
+        <td style="text-align: center">{{this.allocationStartDate}}</td>
+        <td style="text-align: center">{{this.allocationEndDate}}</td>
+      </tr>
+      {{/each}}
+    </table>
+  </body>
+</html>

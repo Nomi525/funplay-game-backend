@@ -1,0 +1,24 @@
+export enum StatusCode {
+  SUCCESS = '000',
+  SUCCESS_WITH_NO_DATA = '001',
+  BAD_REQUEST = '040',
+  INVALID_ACCESS_TOKEN = '041',
+  ACCESS_DENIED = '043',
+  RESOURCE_NOT_FOUND = '044',
+  METHOD_NOT_ALLOWED = '045',
+  RETRY_FAILURE = '005',
+}
+
+export enum ResponseStatus {
+  SUCCESS = 200,
+  SUCCESS_WITH_NO_DATA = 201,
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  FORBIDDEN = 403,
+  NOT_FOUND = 404,
+  INTERNAL_ERROR = 500,
+}
+
+export enum ErrorResponse {
+  INTERNAL_SERVER_ERROR = 'Internal server error',
+}
