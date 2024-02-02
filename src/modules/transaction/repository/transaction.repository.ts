@@ -40,4 +40,38 @@ export default class TransactionRepository {
       throw new BadRequestException(error.message);
     }
   }
+
+  public async transactionDataUpdated(where: any, data: any): Promise<any> {
+    try {
+      Logger.access.info(
+        'transaction.repository --> info of transactionDataUpdated()',
+      );
+      return await this.transactionModel.findOneAndUpdate(
+        where,
+        { $set: data },
+        { new: true },
+      );
+    } catch (error) {
+      Logger.error.error(
+        'transaction.repository --> transactionDataUpdated() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  public async transactionDataCreate(data: any): Promise<any> {
+    try {
+      Logger.access.info(
+        'transaction.repository --> info of transactionDataCreate()',
+      );
+      return await new this.transactionModel(data).save();
+    } catch (error) {
+      Logger.error.error(
+        'transaction.repository --> transactionDataCreate() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
 }

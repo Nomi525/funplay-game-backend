@@ -11,37 +11,6 @@ export default class AdminRepository {
     private readonly adminModel: Model<Admin>,
   ) {}
 
-  // public async signupSigninOTPRepo(): Promise<
-  //   UserSignUpSignInOtpResponseDto | []
-  // > {
-  //   console.log('repo ->');
-  //   // const sp = `select * from "allocations"`;
-  //   // // const res = await this.employeeRepository.find({
-  //   // //   where: { status: 'Active' },
-  //   // // });
-
-  //   // const res = await this.userModel.;
-
-  //   return res;
-  // }
-
-  // public async getReferralUserData(referralByCode: any): Promise<any> {
-  //   try {
-  //     Logger.access.info(
-  //       'user.repository --> info of getReferralUserData() for login and register users',
-  //     );
-  //     return await this.userModel.findOne({
-  //       referralCode: referralByCode,
-  //     });
-  //   } catch (error) {
-  //     Logger.error.error(
-  //       'user.repository --> getReferralUserData() indicates error',
-  //       error.message,
-  //     );
-  //     throw new BadRequestException(error.message);
-  //   }
-  // }
-
   public async getSingleAdminData(data: any, extra?: any): Promise<any> {
     try {
       Logger.access.info('user.repository --> info of getSingleAdminData()');

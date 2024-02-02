@@ -136,9 +136,15 @@ export class DeleteTransactionDto {
   raw?: any;
 }
 
-export interface AddNewTransactionAdminRequestDto {
+export interface AddNewTransactionRequestDto {
   walletAddress: string;
   networkChainId: string;
+  tokenName: string;
+  tokenAmount: string;
+  tetherType: string;
+}
+export interface WithdrawalRequestRequestDto {
+  walletAddress: string;
   tokenName: string;
   tokenAmount: string;
   tetherType: string;

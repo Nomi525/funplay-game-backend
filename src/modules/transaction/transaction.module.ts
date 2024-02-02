@@ -24,6 +24,7 @@ import WithdrawalRequestSchema, {
 import CurrencyCoinRepository from './repository/currencyCoin.repository';
 import TransactionRepository from './repository/transaction.repository';
 import { TransactionService } from './services/transaction.service';
+import TransactionHistoryRepository from './repository/transactionHistory.repository';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { TransactionService } from './services/transaction.service';
   controllers: [TransactionController],
   providers: [
     TransactionRepository,
+    TransactionHistoryRepository,
     CurrencyCoinRepository,
     UserRepository,
     TransactionService,

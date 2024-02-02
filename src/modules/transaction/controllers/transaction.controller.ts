@@ -1,5 +1,17 @@
-import { BadRequestException, Controller, Get, Req, Res } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import Logger from 'src/core/Logger';
+import {
+  AddNewTransactionRequestDto,
+  WithdrawalRequestRequestDto,
+} from '../dto/transaction.dto';
 import { TransactionService } from '../services/transaction.service';
 
 @Controller('transaction')
@@ -69,29 +81,55 @@ export class TransactionController {
     }
   }
 
-  // @Post('/new-transaction/add')
-  // public async addNewTransaction(
-  //   @Req() req: Request,
-  //   @Res() res: Response,
-  //   @Body() addNewTransactionAdminRequestDto: AddNewTransactionAdminRequestDto,
-  // ): Promise<any> {
-  //   Logger.access.info(
-  //     'transaction.controller --> info of addNewTransaction()',
-  //   );
-  //   try {
-  //     const addNewTransactionData =
-  //       await this.transactionService.addNewTransaction(
-  //         req,
-  //         res,
-  //         addNewTransactionAdminRequestDto,
-  //       );
-  //     return addNewTransactionData;
-  //   } catch (error) {
-  //     Logger.error.error(
-  //       'transaction.controller --> addNewTransaction() indicates error',
-  //       error.message,
-  //     );
-  //     throw new BadRequestException(error.message);
-  //   }
-  // }
+  @Post('/new-transaction/add')
+  public async addNewTransaction(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body() addNewTransactionRequestDto: AddNewTransactionRequestDto,
+  ): Promise<any> {
+    Logger.access.info(
+      'transaction.controller --> info of addNewTransaction()',
+    );
+    try {
+      const addNewTransactionData =
+        await this.transactionService.addNewTransaction(
+          req,
+          res,
+          addNewTransactionRequestDto,
+        );
+      return addNewTransactionData;
+    } catch (error) {
+      Logger.error.error(
+        'transaction.controller --> addNewTransaction() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  @Post('/withdrawal-request')
+  public async withdrawalRequest(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body() withdrawalRequestRequestDto: WithdrawalRequestRequestDto,
+  ): Promise<any> {
+    Logger.access.info(
+      'transaction.controller --> info of withdrawalRequest()',
+    );
+    try {
+      const withdrawalRequestData =
+        await this.transactionService.withdrawalRequest(
+          req,
+          res,
+          withdrawalRequestRequestDto,
+        );
+      return withdrawalRequestData;
+    } catch (error) {
+      Logger.error.error(
+        'transaction.controller --> withdrawalRequest() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
 }

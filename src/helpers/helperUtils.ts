@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { configService } from 'src/database/configurations/database.config';
 import * as CryptoJS from 'crypto-js';
+import Decimal from 'decimal.js';
 
 // const key =
 //   'a6dfc106fadd4849e8b23759afea1b86c6c4c4b782c2cf08335c61dc4610fae5efe05ee361a4850f56ddb9457a96bbe01d2820d5106851db64cf210f70ec5e98';
@@ -98,5 +99,62 @@ export const helperUtil = {
       // Handle decryption errors
       return false;
     }
+  },
+
+  minusLargeSmallValue: (largeNumberValue: any, smallNumberValue: any) => {
+    const largeNumber = new Decimal(largeNumberValue);
+    const smallNumber = new Decimal(smallNumberValue);
+    return largeNumber.minus(smallNumber);
+  },
+
+  plusLargeSmallValue: (largeNumberValue: any, smallNumberValue: any) => {
+    const largeNumber = new Decimal(largeNumberValue);
+    const smallNumber = new Decimal(smallNumberValue);
+    return largeNumber.plus(smallNumber);
+  },
+
+  multiplicationLargeSmallValue: (
+    largeNumberValue: any,
+    smallNumberValue: any,
+  ) => {
+    const largeNumber = new Decimal(largeNumberValue);
+    const smallNumber = new Decimal(smallNumberValue);
+    return largeNumber.times(smallNumber);
+  },
+
+  checkDecimalValueGreaterThanOrEqual: (
+    largeNumberValue: any,
+    smallNumberValue: any,
+  ) => {
+    const largeNumber = new Decimal(largeNumberValue);
+    const smallNumber = new Decimal(smallNumberValue);
+    return largeNumber.greaterThanOrEqualTo(smallNumber);
+  },
+
+  checkLargeDecimalValueGreaterThan: (
+    largeNumberValue: any,
+    smallNumberValue: any,
+  ) => {
+    const largeNumber = new Decimal(largeNumberValue);
+    const smallNumber = new Decimal(smallNumberValue);
+    return largeNumber.greaterThan(smallNumber);
+  },
+
+  checkLargeDecimalValueLessThan: (
+    largeNumberValue: any,
+    smallNumberValue: any,
+  ) => {
+    const largeNumber = new Decimal(largeNumberValue);
+    const smallNumber = new Decimal(smallNumberValue);
+    return largeNumber.lessThan(smallNumber);
+  },
+
+  checkLargeDecimalValueEquals: (
+    largeNumberValue: any,
+    smallNumberValue: any,
+  ) => {
+    const largeNumber = new Decimal(largeNumberValue);
+    const smallNumber = new Decimal(smallNumberValue);
+    return largeNumber.equals(smallNumber);
   },
 };
