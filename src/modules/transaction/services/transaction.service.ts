@@ -14,6 +14,7 @@ import {
 import CurrencyCoinRepository from '../repository/currencyCoin.repository';
 import TransactionRepository from '../repository/transaction.repository';
 import TransactionHistoryRepository from '../repository/transactionHistory.repository';
+import { CurrencyEnum } from '../constants/enums/currency.enum';
 
 @Injectable()
 export class TransactionService extends CommonRepository {
@@ -85,6 +86,35 @@ export class TransactionService extends CommonRepository {
           res,
           StatusCodes.BAD_REQUEST,
           TransactionEnum.TRANSACTION_NOT_FOUND,
+          [],
+        );
+      }
+    } catch (error) {
+      Logger.error.error(
+        'transaction.service --> getUserNewTransaction() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  public async getAllCurrency(req: Request | any, res: Response): Promise<any> {
+    try {
+      const getCurrency = await this.transactionRepository.getAllCurrencyData({
+        is_deleted: 0,
+      });
+      if (getCurrency.length) {
+        return sendResponse(
+          res,
+          StatusCodes.OK,
+          CurrencyEnum.CURRENCY_GET,
+          getCurrency,
+        );
+      } else {
+        return sendResponse(
+          res,
+          StatusCodes.NOT_FOUND,
+          CurrencyEnum.CURRENCY_NOT_FOUND,
           [],
         );
       }

@@ -1,0 +1,4 @@
+export enum CurrencyEnum {
+  CURRENCY_GET = 'CURRENCY_GET',
+  CURRENCY_NOT_FOUND = 'CURRENCY_NOT_FOUND',
+}

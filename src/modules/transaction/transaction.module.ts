@@ -25,6 +25,7 @@ import CurrencyCoinRepository from './repository/currencyCoin.repository';
 import TransactionRepository from './repository/transaction.repository';
 import { TransactionService } from './services/transaction.service';
 import TransactionHistoryRepository from './repository/transactionHistory.repository';
+import CurrencySchema, { Currency } from './entities/Currency.entity';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import TransactionHistoryRepository from './repository/transactionHistory.reposi
       { name: WithdrawalRequest.name, schema: WithdrawalRequestSchema },
       { name: CurrencyCoin.name, schema: CurrencyCoinSchema },
       { name: User.name, schema: UserSchema },
+      { name: Currency.name, schema: CurrencySchema },
     ]),
     // MongooseModule.forFeature([
     //   { name: AdminSetting.name, schema: AdminSettingSchema },

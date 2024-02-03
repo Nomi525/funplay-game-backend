@@ -81,6 +81,27 @@ export class TransactionController {
     }
   }
 
+  @Get('/get-all-currency')
+  public async getAllCurrency(
+    @Req() req: Request,
+    @Res() res: Response,
+  ): Promise<any> {
+    Logger.access.info('transaction.controller --> info of getAllCurrency()');
+    try {
+      const getAllCurrencyData = await this.transactionService.getAllCurrency(
+        req,
+        res,
+      );
+      return getAllCurrencyData;
+    } catch (error) {
+      Logger.error.error(
+        'transaction.controller --> getAllCurrency() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
+
   @Post('/new-transaction/add')
   public async addNewTransaction(
     @Req() req: Request,
