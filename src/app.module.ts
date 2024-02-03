@@ -4,16 +4,20 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import CorsMiddleware from './middlewares/cors.middleware';
-import UserSchema, { User } from './modules/user/entities/user.entity';
-import { UserModule } from './modules/user/user.module';
-import AdminSchema, { Admin } from './modules/admin/entities/admin.entity';
 import { AdminModule } from './modules/admin/admin.module';
-import { TransactionModule } from './modules/transaction/transaction.module';
+import AdminSchema, { Admin } from './modules/admin/entities/admin.entity';
+import PermissionSchema, {
+  Permission,
+} from './modules/permission/entities/permission.entity';
+import { PermissionModule } from './modules/permission/permission.module';
+import RoleSchema, { Role } from './modules/role/entities/role.entity';
+import { RoleModule } from './modules/role/role.module';
 import NewTransactionSchema, {
   NewTransaction,
 } from './modules/transaction/entities/transaction.entity';
-import { RoleModule } from './modules/role/role.module';
-import RoleSchema, { Role } from './modules/role/entities/role.entity';
+import { TransactionModule } from './modules/transaction/transaction.module';
+import UserSchema, { User } from './modules/user/entities/user.entity';
+import { UserModule } from './modules/user/user.module';
 // import express from 'express';
 
 @Module({
@@ -30,12 +34,14 @@ import RoleSchema, { Role } from './modules/role/entities/role.entity';
       { name: Admin.name, schema: AdminSchema },
       { name: NewTransaction.name, schema: NewTransactionSchema },
       { name: Role.name, schema: RoleSchema },
+      { name: Permission.name, schema: PermissionSchema },
     ]),
     ScheduleModule.forRoot(),
     UserModule,
     AdminModule,
     TransactionModule,
     RoleModule,
+    PermissionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -101,7 +101,7 @@ export class RoleService extends CommonRepository {
     addEditRole: AddEditRoleRequestDto,
   ): Promise<any> {
     try {
-      const findRoleQuery = {
+      const findRoleQuery: any = {
         roleName: { $regex: '^' + addEditRole.roleName + '$', $options: 'i' },
         is_deleted: 0,
       };

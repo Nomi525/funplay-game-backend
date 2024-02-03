@@ -1,24 +1,34 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type RoleDocument = Role & Document;
-
 @Schema({ collection: 'Role', timestamps: true })
-export class Role {
+export class Role extends Document {
   @Prop({ required: false })
   roleName: string;
 
-  @Prop({ default: false })
+  @Prop({
+    type: {
+      edit: Boolean,
+      delete: Boolean,
+      create: Boolean,
+    },
+    required: false,
+    default: {
+      edit: false,
+      delete: false,
+      create: false,
+    },
+  })
   permission: {
     edit: boolean;
     delete: boolean;
     create: boolean;
   };
 
-  @Prop()
+  @Prop({ type: [String], required: false })
   permissionType: string[];
 
-  @Prop({ default: true })
+  @Prop({ default: true, required: false })
   isActive: boolean;
 
   @Prop({ default: 0 })

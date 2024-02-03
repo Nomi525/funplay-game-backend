@@ -10,10 +10,14 @@ import RoleRepository from './repository/role.repository';
 import { RoleService } from './services/role.service';
 import RoleSchema, { Role } from './entities/role.entity';
 import AuthMiddleware from 'src/middlewares/auth.middleware';
+import UserSchema, { User } from '../user/entities/user.entity';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }]),
+    MongooseModule.forFeature([
+      { name: Role.name, schema: RoleSchema },
+      { name: User.name, schema: UserSchema },
+    ]),
   ],
   controllers: [RoleController],
   providers: [RoleRepository, RoleService],
