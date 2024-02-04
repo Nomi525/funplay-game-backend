@@ -6,6 +6,9 @@ import { AppService } from './app.service';
 import CorsMiddleware from './middlewares/cors.middleware';
 import { AdminModule } from './modules/admin/admin.module';
 import AdminSchema, { Admin } from './modules/admin/entities/admin.entity';
+import ColourBettingSchema, {
+  ColourBetting,
+} from './modules/colourBetting/entities/colourBetting.entity';
 import PermissionSchema, {
   Permission,
 } from './modules/permission/entities/permission.entity';
@@ -35,6 +38,7 @@ import { UserModule } from './modules/user/user.module';
       { name: NewTransaction.name, schema: NewTransactionSchema },
       { name: Role.name, schema: RoleSchema },
       { name: Permission.name, schema: PermissionSchema },
+      { name: ColourBetting.name, schema: ColourBettingSchema },
     ]),
     ScheduleModule.forRoot(),
     UserModule,
@@ -42,6 +46,7 @@ import { UserModule } from './modules/user/user.module';
     TransactionModule,
     RoleModule,
     PermissionModule,
+    ColourBetting,
   ],
   controllers: [AppController],
   providers: [AppService],

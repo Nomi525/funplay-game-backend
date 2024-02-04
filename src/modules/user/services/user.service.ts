@@ -3,9 +3,12 @@ import { StatusCodes } from 'http-status-codes';
 import Logger from 'src/core/Logger';
 import CommonRepository from 'src/helpers/commonRepository';
 import { sendResponse } from 'src/helpers/commonService';
+import { helperUtil } from 'src/helpers/helperUtils';
 import ReferralUserRepository from 'src/modules/referralUser/repository/referralUser.repository';
 import RewardUserRepository from 'src/modules/rewardUser/repository/rewardUser.repository';
 import { RewardUserService } from 'src/modules/rewardUser/services/rewardUser.service';
+import CurrencyCoinRepository from 'src/modules/transaction/repository/currencyCoin.repository';
+import TransactionHistoryRepository from 'src/modules/transaction/repository/transactionHistory.repository';
 import { userEnum } from '../constants/enums/user.enum';
 import {
   CheckUserEmailRequestDto,
@@ -20,7 +23,7 @@ import {
   VerifyUserOtpRequestDto,
 } from '../dto/user.dto';
 import UserRepository from '../repository/user.repository';
-import { helperUtil } from 'src/helpers/helperUtils';
+import ColourBettingRepository from 'src/modules/colourBetting/repository/colourBetting.repository';
 
 @Injectable()
 export class UserService extends CommonRepository {
@@ -29,6 +32,10 @@ export class UserService extends CommonRepository {
     private readonly referralUserRepository: ReferralUserRepository,
     private readonly rewardUserRepository: RewardUserRepository,
     private readonly rewardUserService: RewardUserService,
+    // private readonly transactionRepository: TransactionRepository,
+    private readonly transactionHistoryRepository: TransactionHistoryRepository,
+    private readonly currencyCoinRepository: CurrencyCoinRepository,
+    private readonly colourBettingRepository: ColourBettingRepository,
   ) {
     super();
   }
@@ -329,6 +336,332 @@ export class UserService extends CommonRepository {
     } catch (error) {
       Logger.error.error(
         'user.service --> getUserProfile() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  public async userDashboard(req: Request | any, res: Response): Promise<any> {
+    try {
+      const findUser = await this.userRepository.getSingleUserData({
+        _id: req.user,
+        is_deleted: 0,
+      });
+      if (findUser) {
+        const today = new Date();
+
+        // For User Get bit of 24 hours
+        const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+        // const numberBettingForUser = await NumberBetting.find({
+        //   userId: findUser._id,
+        //   createdAt: { $gte: twentyFourHoursAgo },
+        //   is_deleted: 0,
+        // });
+        const colourBettingForUser =
+          await this.colourBettingRepository.getColourBettingData({
+            userId: findUser._id,
+            createdAt: { $gte: twentyFourHoursAgo },
+            is_deleted: 0,
+          });
+        // const communityBettingForUser = await CommunityBetting.find({
+        //   userId: findUser._id,
+        //   createdAt: { $gte: twentyFourHoursAgo },
+        //   is_deleted: 0,
+        // });
+        // const penaltyBettingForUser = await PenaltyBetting.find({
+        //   userId: findUser._id,
+        //   createdAt: { $gte: twentyFourHoursAgo },
+        //   is_deleted: 0,
+        // });
+        // const cardBettingForUser = await CardBetting.find({
+        //   userId: findUser._id,
+        //   createdAt: { $gte: twentyFourHoursAgo },
+        //   is_deleted: 0,
+        // });
+        // const totalUserswhoPlacedBidsin24Hrs =
+        //   numberBettingForUser.length +
+        //   colourBettingForUser.length +
+        //   communityBettingForUser.length +
+        //   penaltyBettingForUser.length +
+        //   cardBettingForUser.length;
+
+        const totalUserswhoPlacedBidsin24Hrs = colourBettingForUser.length;
+
+        // const totalUserswhoPlacedBidsin24Hrs = await getAllBids({ userId: findUser._id, createdAt: { $gte: twentyFourHoursAgo }, is_deleted: 0 })
+
+        // For All Get bit of 24 hours
+        // const numberBetting = await NumberBetting.find({
+        //   createdAt: { $gte: twentyFourHoursAgo },
+        //   is_deleted: 0,
+        // });
+        const colourBetting =
+          await this.colourBettingRepository.getColourBettingData({
+            createdAt: { $gte: twentyFourHoursAgo },
+            is_deleted: 0,
+          });
+        // const communityBetting = await CommunityBetting.find({
+        //   createdAt: { $gte: twentyFourHoursAgo },
+        //   is_deleted: 0,
+        // });
+        // const penaltyBetting = await PenaltyBetting.find({
+        //   createdAt: { $gte: twentyFourHoursAgo },
+        //   is_deleted: 0,
+        // });
+        // const cardBetting = await CardBetting.find({
+        //   createdAt: { $gte: twentyFourHoursAgo },
+        //   is_deleted: 0,
+        // });
+        // const totalBidin24Hrs =
+        //   numberBetting.length +
+        //   colourBetting.length +
+        //   communityBetting.length +
+        //   penaltyBetting.length +
+        //   cardBetting.length;
+
+        const totalBidin24Hrs = colourBetting.length;
+        // const totalBidin24Hrs = await getAllBids({ createdAt: { $gte: twentyFourHoursAgo }, is_deleted: 0 })
+
+        // For Total winning amount in 24 hours
+        // const numberBettingWinningAmount = numberBettingForUser.reduce(
+        //   (total: any, data: any) => Number(total) + Number(data.rewardAmount),
+        //   0,
+        // );
+        const colourBettingWinningAmount = colourBettingForUser.reduce(
+          (total: any, data: any) => Number(total) + Number(data.rewardAmount),
+          0,
+        );
+        // const communityBettingWinningAmount = communityBettingForUser.reduce(
+        //   (total: any, data: any) => Number(total) + Number(data.rewardAmount),
+        //   0,
+        // );
+        // const penaltyBettingWinningAmount = penaltyBettingForUser.reduce(
+        //   (total: any, data: any) => Number(total) + Number(data.rewardAmount),
+        //   0,
+        // );
+        // const cardBettingWinningAmount = cardBettingForUser.reduce(
+        //   (total: any, data: any) => Number(total) + Number(data.rewardAmount),
+        //   0,
+        // );
+        // const totalWinningAmountin24Hrs =
+        //   numberBettingWinningAmount +
+        //   colourBettingWinningAmount +
+        //   communityBettingWinningAmount +
+        //   penaltyBettingWinningAmount +
+        //   cardBettingWinningAmount;
+
+        const totalWinningAmountin24Hrs = colourBettingWinningAmount;
+        // For Total referral code count
+        const totalReferralCount =
+          await this.referralUserRepository.countDocuments({
+            userId: findUser._id,
+          });
+
+        // For All transaction of user
+        const transactions =
+          await this.transactionHistoryRepository.getAllTransactionHistoryData({
+            userId: findUser._id,
+            is_deleted: 0,
+          });
+        const totalTransaction = transactions.length;
+
+        const transactionDeposite =
+          await this.transactionHistoryRepository.getSingleTransactionHistoryData(
+            { userId: findUser._id, is_deleted: 0 },
+          );
+
+        if (!findUser.currency) {
+          findUser.currency = 'USD';
+          await findUser.save();
+        }
+        const currency =
+          await this.currencyCoinRepository.getSingleCurrencyCoinData({
+            currencyName: findUser.currency,
+          });
+        const coinRate = currency?.coin;
+
+        // One months rewards get
+        const oneMonthAgo = new Date();
+        oneMonthAgo.setMonth(today.getMonth() - 1);
+        const rewardOneMonthQuery = {
+          createdAt: {
+            $gte: oneMonthAgo,
+            $lte: today,
+          },
+        };
+
+        // One Week Reward
+        const oneWeekAgo = new Date();
+        oneWeekAgo.setDate(today.getDate() - 7);
+        const rewardOneWeekQuery = {
+          createdAt: {
+            $gte: oneWeekAgo,
+            $lte: today,
+          },
+        };
+
+        // Today Rewas count get
+        today.setHours(0, 0, 0, 0);
+        const endOfDay = new Date(today);
+        endOfDay.setHours(23, 59, 59, 999);
+        const rewardTodayQuery = {
+          createdAt: {
+            $gte: today,
+            $lte: endOfDay,
+          },
+        };
+
+        // All Reward Data Code 24 hours
+        // const totalNumberBettingReward = numberBetting.reduce(
+        //   (total: any, data: any) => Number(total) + Number(data.rewardAmount),
+        //   0,
+        // );
+        const totalColourBettingReward = colourBetting.reduce(
+          (total: any, data: any) => Number(total) + Number(data.rewardAmount),
+          0,
+        );
+        // const totalCommunityBettingReward = communityBetting.reduce(
+        //   (total: any, data: any) => Number(total) + Number(data.rewardAmount),
+        //   0,
+        // );
+        // const totalPenaltyBettingReward = penaltyBetting.reduce(
+        //   (total: any, data: any) => Number(total) + Number(data.rewardAmount),
+        //   0,
+        // );
+        // const totalCardBettingReward = cardBetting.reduce(
+        //   (total: any, data: any) => Number(total) + Number(data.rewardAmount),
+        //   0,
+        // );
+        // const totalReward =
+        //   totalNumberBettingReward +
+        //   totalColourBettingReward +
+        //   totalCommunityBettingReward +
+        //   totalPenaltyBettingReward +
+        //   totalCardBettingReward;
+
+        const totalReward = totalColourBettingReward;
+
+        // One month Reward Code
+        const totalRewardsDistributedToday =
+          await this.rewardUserRepository.countDocuments({
+            userId: findUser._id,
+            is_deleted: 0,
+            ...rewardTodayQuery,
+          });
+        const totalWithdrawal = transactions.filter(
+          (tran: any) => tran.type == 'withdrawal',
+        );
+        const totalDeposit = transactions.filter(
+          (tran: any) => tran.type == 'deposit',
+        );
+
+        // One Day Reward
+        // const totalOneDayNumberReward = await calculateTotalReward(NumberBetting, rewardTodayQuery);
+        // const totalOneDayColourReward = await calculateTotalReward(ColourBetting, rewardTodayQuery);
+        // const totalOneDayCommunityReward = await calculateTotalReward(CommunityBetting, rewardTodayQuery);
+        // const totalOneDayPenaltyReward = await calculateTotalReward(PenaltyBetting, rewardTodayQuery);
+        // const totalOneDayCardReward = await calculateTotalReward(CardBetting, rewardTodayQuery);
+        // const totalOneDayReward = totalOneDayNumberReward + totalOneDayColourReward + totalOneDayCommunityReward + totalOneDayPenaltyReward + totalOneDayCardReward;
+        const totalOneDayReward = await helperUtil.calculateAllGameReward(
+          rewardTodayQuery,
+        );
+
+        // One Month Reward
+        // const totalOneMonthNumberReward = await calculateTotalReward(NumberBetting, rewardOneMonthQuery);
+        // const totalOneMonthColourReward = await calculateTotalReward(ColourBetting, rewardOneMonthQuery);
+        // const totalOneMonthCommunityReward = await calculateTotalReward(CommunityBetting, rewardOneMonthQuery);
+        // const totalOneMonthPenaltyReward = await calculateTotalReward(PenaltyBetting, rewardOneMonthQuery);
+        // const totalOneMonthCardReward = await calculateTotalReward(CardBetting, rewardOneMonthQuery);
+        // const totalOneMonthReward = totalOneMonthNumberReward + totalOneMonthColourReward + totalOneMonthCommunityReward + totalOneMonthPenaltyReward + totalOneMonthCardReward;
+        const totalOneMonthReward = await helperUtil.calculateAllGameReward(
+          rewardOneMonthQuery,
+        );
+
+        // const totalOneWeekNumberReward = await calculateTotalReward(NumberBetting, rewardOneWeekQuery);
+        // const totalOneWeekColourReward = await calculateTotalReward(ColourBetting, rewardOneWeekQuery);
+        // const totalOneWeekCommunityReward = await calculateTotalReward(CommunityBetting, rewardOneWeekQuery);
+        // const totalOneWeekPenaltyReward = await calculateTotalReward(PenaltyBetting, rewardOneWeekQuery);
+        // const totalOneWeekCardReward = await calculateTotalReward(CardBetting, rewardOneWeekQuery);
+        // const totalOneWeekReward = totalOneWeekNumberReward + totalOneWeekColourReward + totalOneWeekCommunityReward + totalOneWeekPenaltyReward + totalOneWeekCardReward;
+        const totalOneWeekReward = await helperUtil.calculateAllGameReward(
+          rewardOneWeekQuery,
+        );
+
+        const totalRewardsDistributedOneMonth =
+          await this.rewardUserRepository.countDocuments({
+            userId: findUser._id,
+            is_deleted: 0,
+            ...rewardOneMonthQuery,
+          });
+
+        let totalBalance = 0;
+        let totalDepositeBalance = 0;
+        const remainingBalance = 0;
+        const totalDepositAmount = totalDeposit.reduce(
+          (total: any, data: any) =>
+            helperUtil.plusLargeSmallValue(total, data.tokenDollorValue),
+          0,
+        );
+        const totalWithdrawalAmount = totalWithdrawal.reduce(
+          (total: any, data: any) =>
+            helperUtil.plusLargeSmallValue(total, data.tokenDollorValue),
+          0,
+        );
+        if (
+          transactionDeposite &&
+          parseFloat(transactionDeposite.betAmount) > 0
+        ) {
+          totalBalance = transactionDeposite.tokenDollorValue;
+          totalDepositeBalance = transactionDeposite.betAmount;
+          // totalBalance = await plusLargeSmallValue(transactionDeposite.tokenDollorValue, transactionDeposite.betAmount);
+          // remainingBalance = transactionDeposite.tokenDollorValue
+          // totalDeposit = transactions.filter(tran => tran.type == "withdrawal")
+        }
+        const totalCoin = transactionDeposite
+          ? transactionDeposite.totalCoin
+          : 0;
+        const convertedCoin = transactionDeposite
+          ? transactionDeposite.totalCoin / coinRate
+          : 0;
+        // console.log(totalDepositAmount,totalWithdrawalAmount);
+        return sendResponse(res, StatusCodes.OK, userEnum.DASHBOARD_DATA_GET, {
+          totalUserswhoPlacedBidsin24Hrs,
+          totalBidin24Hrs,
+          totalWinningAmountin24Hrs,
+          totalReferralCount,
+          totalTransaction,
+          // totalRewardsDistributedOneMonth,
+          // totalRewardsDistributedToday,
+          totalOneDayReward,
+          totalOneWeekReward,
+          totalOneMonthReward,
+          totalWithdrawalRequests: totalWithdrawal.length,
+          totalBalance: transactionDeposite
+            ? transactionDeposite.tokenDollorValue
+            : 0,
+          totalCoin: totalCoin,
+          currency: findUser ? findUser.currency : 'USD',
+          convertedCoin: convertedCoin,
+          // remainingBalance,
+          // totalDepositeBalance,
+          totalDepositAmount: helperUtil.minusLargeSmallValue(
+            totalDepositAmount,
+            totalWithdrawalAmount,
+          ),
+          totalReward,
+          walletDetails: findUser.wallet,
+        });
+      } else {
+        return sendResponse(
+          res,
+          StatusCodes.BAD_REQUEST,
+          userEnum.USER_NOT_EXIST,
+          [],
+        );
+      }
+    } catch (error) {
+      Logger.error.error(
+        'user.service --> userDashboard() indicates error',
         error.message,
       );
       throw new BadRequestException(error.message);
@@ -1040,14 +1373,14 @@ export class UserService extends CommonRepository {
         //       return sendResponse(
         //         res,
         //         StatusCodes.BAD_REQUEST,
-        //         ResponseMessage.SOMETHING_WENT_WRONG,
+        //         userEnum.SOMETHING_WENT_WRONG,
         //         []
         //       );
         //     } else {
         //       return sendResponse(
         //         res,
         //         StatusCodes.OK,
-        //         ResponseMessage.RESET_PASSWORD_MAIL,
+        //         userEnum.RESET_PASSWORD_MAIL,
         //         updateOtp
         //       );
         //     }
@@ -1552,14 +1885,14 @@ export class UserService extends CommonRepository {
       const objectEncrypt = await helperUtil.decryptObject(key);
       if (objectEncrypt === false) {
         return res.redirect('http://betting.appworkdemo.com/user');
-        // return sendResponse(res, StatusCodes.BAD_REQUEST, ResponseMessage.VERIFY_LINK_EXPIRE, []);
+        // return sendResponse(res, StatusCodes.BAD_REQUEST, userEnum.VERIFY_LINK_EXPIRE, []);
       }
       objectEncrypt.email = objectEncrypt.email
         ? objectEncrypt.email.toLowerCase()
         : null;
       if (!objectEncrypt.email) {
         return res.redirect('http://betting.appworkdemo.com/user');
-        // return sendResponse(res, StatusCodes.BAD_REQUEST, ResponseMessage.USER_NOT_FOUND, []);
+        // return sendResponse(res, StatusCodes.BAD_REQUEST, userEnum.USER_NOT_FOUND, []);
       }
 
       const checkEmailExist = await this.userRepository.getSingleUserData({

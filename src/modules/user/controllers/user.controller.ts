@@ -130,6 +130,26 @@ export class UserController {
     }
   }
 
+  @Get('/dashboard')
+  @UsePipes(ValidationPipe)
+  public async userDashboard(
+    @Req() req: Request,
+    @Res() res: Response,
+  ): Promise<any> {
+    Logger.access.info('user.controller --> info of userDashboard()');
+    try {
+      const userDashboardData = await this.userService.userDashboard(req, res);
+      return userDashboardData;
+    } catch (error) {
+      console.log({ error });
+      Logger.error.error(
+        'user.controller --> userDashboard() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
+
   @Post('/verify-otp')
   @UsePipes(ValidationPipe)
   public async verifyUserOtp(

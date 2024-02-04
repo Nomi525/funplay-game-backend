@@ -41,6 +41,7 @@ export enum userEnum {
   USER_UPDATED = 'USER_UPDATED',
   DATA_NOT_FOUND = 'DATA_NOT_FOUND',
   USER_DEACTIVATED = 'USER_DEACTIVATED',
+  DASHBOARD_DATA_GET = 'DASHBOARD_DATA_GET',
 }
 
 export enum userWalletTypeEnum {
