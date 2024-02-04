@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateColourBettingDto {
+export class CreateGameDto {
   @ApiProperty({ required: true })
   @IsString()
   @IsNotEmpty()
@@ -121,33 +121,20 @@ export class CreateColourBettingDto {
   }
 }
 
-export class UpdateColourBettingDto extends CreateColourBettingDto {
+export class UpdateGameDto extends CreateGameDto {
   @ApiProperty({ required: true })
   @IsString()
   @IsNotEmpty()
   id: string;
 }
 
-export class DeleteColourBettingDto {
+export class DeleteGameDto {
   @ApiProperty({ required: false })
   affected?: number | null | undefined;
 
   @ApiProperty({ required: false })
   raw?: any;
 }
-
-// export interface EditProfileUserRequestDto {
-//   email: string;
-//   profile: string;
-//   fullName: string;
-//   bankDetails: {
-//     bankName?: string;
-//     branch?: string;
-//     accountHolder?: string;
-//     accountNumber?: string;
-//     IFSCCode?: string;
-//   };
-// }
 
 export interface AddColourBettingRequestDto {
   gameId: string;
@@ -156,10 +143,4 @@ export interface AddColourBettingRequestDto {
   gameType: string;
   period: string;
   selectedTime: string;
-}
-export interface ColourBettingBetResultRequestDto {
-  gameType: string;
-  type: string;
-  gameId: string;
-  period: number;
 }

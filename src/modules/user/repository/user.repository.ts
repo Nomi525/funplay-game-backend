@@ -42,9 +42,14 @@ export default class UserRepository {
     }
   }
 
-  public async getSingleUserData(data: any): Promise<any> {
+  public async getSingleUserData(data: any, select?: any): Promise<any> {
     try {
       Logger.access.info('user.repository --> info of getSingleUserData()');
+      if (select == 'getLoginUserColourBet') {
+        return await this.userModel
+          .findOne(data)
+          .select('_id fullName email currency');
+      }
       return await this.userModel.findOne(data);
     } catch (error) {
       Logger.error.error(

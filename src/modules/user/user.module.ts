@@ -5,11 +5,19 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { FileUploadMiddleware } from 'src/middlewares/fileUpload.middleware';
 import AuthMiddleware from '../../middlewares/auth.middleware';
 import AdminSettingSchema, {
   AdminSetting,
 } from '../adminSetting/entities/adminSetting.entity';
 import AdminSettingRepository from '../adminSetting/repository/adminSetting.repository';
+import ColourBettingSchema, {
+  ColourBetting,
+} from '../colourBetting/entities/colourBetting.entity';
+import ColourBettingRepository from '../colourBetting/repository/colourBetting.repository';
+import GameRewardSchema, {
+  GameReward,
+} from '../game/entities/gameReward.entity';
 import ReferralUserSchema, {
   ReferralUser,
 } from '../referralUser/entities/referralUser.entity';
@@ -19,23 +27,21 @@ import RewardUserSchema, {
 } from '../rewardUser/entities/rewardUser.entity';
 import RewardUserRepository from '../rewardUser/repository/rewardUser.repository';
 import { RewardUserService } from '../rewardUser/services/rewardUser.service';
+import CurrencyCoinSchema, {
+  CurrencyCoin,
+} from '../transaction/entities/currencyCoin.entity';
+import NewTransactionSchema, {
+  NewTransaction,
+} from '../transaction/entities/transaction.entity';
+import TransactionHistorySchema, {
+  TransactionHistory,
+} from '../transaction/entities/transactionHistory.entity';
+import CurrencyCoinRepository from '../transaction/repository/currencyCoin.repository';
+import TransactionHistoryRepository from '../transaction/repository/transactionHistory.repository';
 import { UserController } from './controllers/user.controller';
 import UserSchema, { User } from './entities/user.entity';
 import UserRepository from './repository/user.repository';
 import { UserService } from './services/user.service';
-import { FileUploadMiddleware } from 'src/middlewares/fileUpload.middleware';
-import TransactionHistoryRepository from '../transaction/repository/transactionHistory.repository';
-import CurrencyCoinRepository from '../transaction/repository/currencyCoin.repository';
-import TransactionHistorySchema, {
-  TransactionHistory,
-} from '../transaction/entities/transactionHistory.entity';
-import CurrencyCoinSchema, {
-  CurrencyCoin,
-} from '../transaction/entities/currencyCoin.entity';
-import ColourBettingRepository from '../colourBetting/repository/colourBetting.repository';
-import ColourBettingSchema, {
-  ColourBetting,
-} from '../colourBetting/entities/colourBetting.entity';
 
 @Module({
   imports: [
@@ -45,11 +51,13 @@ import ColourBettingSchema, {
       { name: RewardUser.name, schema: RewardUserSchema },
       { name: AdminSetting.name, schema: AdminSettingSchema },
       { name: TransactionHistory.name, schema: TransactionHistorySchema },
+      { name: NewTransaction.name, schema: NewTransactionSchema },
       { name: CurrencyCoin.name, schema: CurrencyCoinSchema },
       { name: ColourBetting.name, schema: ColourBettingSchema },
+      { name: GameReward.name, schema: GameRewardSchema },
     ]),
 
-    // forwardRef(() => AllocationModule),
+    // forwardRef(() => ColourBettingModule),
   ],
   controllers: [UserController],
   providers: [
