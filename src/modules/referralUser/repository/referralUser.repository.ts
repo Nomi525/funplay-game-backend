@@ -27,4 +27,18 @@ export default class ReferralUserRepository {
       throw new BadRequestException(error.message);
     }
   }
+  public async countDocuments(data: any): Promise<any> {
+    try {
+      Logger.access.info('user.repository --> info of countDocuments()');
+      return await this.referralUserModel.countDocuments({
+        data,
+      });
+    } catch (error) {
+      Logger.error.error(
+        'user.repository --> countDocuments() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
 }
