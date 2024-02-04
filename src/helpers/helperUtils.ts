@@ -102,6 +102,11 @@ export const helperUtil = {
     }
   },
 
+  // Capitalize First Letter
+  capitalizeFirstLetter: (str: any) => {
+    return str.replace(/^\w/, (c: string) => c.toUpperCase());
+  },
+
   minusLargeSmallValue: (largeNumberValue: any, smallNumberValue: any) => {
     const largeNumber = new Decimal(largeNumberValue);
     const smallNumber = new Decimal(smallNumberValue);

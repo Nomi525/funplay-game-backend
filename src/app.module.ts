@@ -6,9 +6,12 @@ import { AppService } from './app.service';
 import CorsMiddleware from './middlewares/cors.middleware';
 import { AdminModule } from './modules/admin/admin.module';
 import AdminSchema, { Admin } from './modules/admin/entities/admin.entity';
+import { ColourBettingModule } from './modules/colourBetting/colourBetting.module';
 import ColourBettingSchema, {
   ColourBetting,
 } from './modules/colourBetting/entities/colourBetting.entity';
+import GameSchema, { Game } from './modules/game/entities/game.entity';
+import { GameModule } from './modules/game/game.module';
 import PermissionSchema, {
   Permission,
 } from './modules/permission/entities/permission.entity';
@@ -39,6 +42,7 @@ import { UserModule } from './modules/user/user.module';
       { name: Role.name, schema: RoleSchema },
       { name: Permission.name, schema: PermissionSchema },
       { name: ColourBetting.name, schema: ColourBettingSchema },
+      { name: Game.name, schema: GameSchema },
     ]),
     ScheduleModule.forRoot(),
     UserModule,
@@ -46,7 +50,8 @@ import { UserModule } from './modules/user/user.module';
     TransactionModule,
     RoleModule,
     PermissionModule,
-    ColourBetting,
+    ColourBettingModule,
+    GameModule,
   ],
   controllers: [AppController],
   providers: [AppService],

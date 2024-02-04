@@ -6,47 +6,29 @@ import {
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import AuthMiddleware from '../../middlewares/auth.middleware';
-import GameSchema, { Game } from '../game/entities/game.entity';
-import GameRewardSchema, {
-  GameReward,
-} from '../game/entities/gameReward.entity';
-import GameRepository from '../game/repository/game.repository';
-import CurrencySchema, {
-  Currency,
-} from '../transaction/entities/Currency.entity';
-import NewTransactionSchema, {
-  NewTransaction,
-} from '../transaction/entities/transaction.entity';
-import TransactionRepository from '../transaction/repository/transaction.repository';
 import UserSchema, { User } from '../user/entities/user.entity';
-import UserRepository from '../user/repository/user.repository';
-import { ColourBettingController } from './controllers/ColourBetting.controller';
-import ColourBettingSchema, {
-  ColourBetting,
-} from './entities/colourBetting.entity';
-import ColourBettingRepository from './repository/colourBetting.repository';
-import { ColourBettingService } from './services/colourBetting.service';
+import { PeriodController } from './controllers/period.controller';
+import PeriodSchema, { Period } from './entities/period.entity';
+import PeriodRepository from './repository/period.repository';
+import { PeriodService } from './services/period.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: ColourBetting.name, schema: ColourBettingSchema },
-      { name: NewTransaction.name, schema: NewTransactionSchema },
+      { name: Period.name, schema: PeriodSchema },
       { name: User.name, schema: UserSchema },
-      { name: Game.name, schema: GameSchema },
-      { name: GameReward.name, schema: GameRewardSchema },
-      { name: Currency.name, schema: CurrencySchema },
+      // { name: GameReward.name, schema: GameRewardSchema },
+      // { name: NewTransaction.name, schema: NewTransactionSchema },
+      // { name: User.name, schema: UserSchema },
     ]),
 
     // forwardRef(() => AllocationModule),
   ],
-  controllers: [ColourBettingController],
+  controllers: [PeriodController],
   providers: [
-    ColourBettingRepository,
-    ColourBettingService,
-    GameRepository,
-    UserRepository,
-    TransactionRepository,
+    PeriodRepository,
+    PeriodService,
+    // GameRewardRepository,
     // ReferralUserRepository,
     // RewardUserService,
     // RewardUserRepository,
@@ -54,9 +36,9 @@ import { ColourBettingService } from './services/colourBetting.service';
     // TransactionHistoryRepository,
     // CurrencyCoinRepository,
   ],
-  exports: [ColourBettingRepository, ColourBettingService],
+  exports: [PeriodRepository, PeriodService],
 })
-export class ColourBettingModule implements NestModule {
+export class PeriodModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     // Apply the AuthMiddleware to specific routes using dynamic routing
     consumer
