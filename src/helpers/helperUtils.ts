@@ -4,7 +4,7 @@ import * as jwt from 'jsonwebtoken';
 import { configService } from 'src/database/configurations/database.config';
 import * as CryptoJS from 'crypto-js';
 import Decimal from 'decimal.js';
-import { ColourBetting } from 'src/modules/colourBetting/entities/colourBetting.entity';
+import ColourBettingRepository from 'src/modules/colourBetting/repository/colourBetting.repository';
 
 // const key =
 //   'a6dfc106fadd4849e8b23759afea1b86c6c4c4b782c2cf08335c61dc4610fae5efe05ee361a4850f56ddb9457a96bbe01d2820d5106851db64cf210f70ec5e98';
@@ -164,41 +164,41 @@ export const helperUtil = {
     return largeNumber.equals(smallNumber);
   },
 
-  calculateTotalReward: async (bettingModel: any, query: any) => {
-    const bettingData = await bettingModel.find({ ...query, is_deleted: 0 });
-    return bettingData.reduce(
-      (total: any, data: any) => total + Number(data.rewardAmount),
-      0,
-    );
-  },
+  // calculateTotalReward: async (bettingModel: any, query: any) => {
+  //   const bettingData = await bettingModel.find({ ...query, is_deleted: 0 });
+  //   return bettingData.reduce(
+  //     (total: any, data: any) => total + Number(data.rewardAmount),
+  //     0,
+  //   );
+  // },
 
-  calculateAllGameReward: async (rewardQuery: any) => {
-    // const totalNumberReward = await helperUtil.calculateTotalReward(
-    //   NumberBetting,
-    //   rewardQuery
-    // );
-    const totalColourReward = await helperUtil.calculateTotalReward(
-      ColourBetting,
-      rewardQuery,
-    );
-    // const totalCommunityReward = await helperUtil.calculateTotalReward(
-    //   CommunityBetting,
-    //   rewardQuery
-    // );
-    // const totalPenaltyReward = await helperUtil.calculateTotalReward(
-    //   PenaltyBetting,
-    //   rewardQuery
-    // );
-    // const totalCardReward = await helperUtil.calculateTotalReward(CardBetting, rewardQuery);
+  // calculateAllGameReward: async (rewardQuery: any) => {
+  //   // const totalNumberReward = await helperUtil.calculateTotalReward(
+  //   //   NumberBetting,
+  //   //   rewardQuery
+  //   // );
+  //   const totalColourReward = await this.ColourBettingRepository(
+  //     ColourBetting,
+  //     rewardQuery,
+  //   );
+  //   // const totalCommunityReward = await helperUtil.calculateTotalReward(
+  //   //   CommunityBetting,
+  //   //   rewardQuery
+  //   // );
+  //   // const totalPenaltyReward = await helperUtil.calculateTotalReward(
+  //   //   PenaltyBetting,
+  //   //   rewardQuery
+  //   // );
+  //   // const totalCardReward = await helperUtil.calculateTotalReward(CardBetting, rewardQuery);
 
-    // const totalReward =
-    //   totalNumberReward +
-    //   totalColourReward +
-    //   totalCommunityReward +
-    //   totalPenaltyReward +
-    //   totalCardReward;
+  //   // const totalReward =
+  //   //   totalNumberReward +
+  //   //   totalColourReward +
+  //   //   totalCommunityReward +
+  //   //   totalPenaltyReward +
+  //   //   totalCardReward;
 
-    const totalReward = totalColourReward;
-    return totalReward;
-  },
+  //   const totalReward = totalColourReward;
+  //   return totalReward;
+  // },
 };

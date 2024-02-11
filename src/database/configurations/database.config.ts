@@ -1,6 +1,5 @@
 import { config } from 'dotenv';
 // import { DataSource, DataSourceOptions } from 'typeorm';
-
 config();
 
 class DatabaseConfigService {

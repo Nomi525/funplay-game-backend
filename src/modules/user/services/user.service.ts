@@ -562,9 +562,10 @@ export class UserService extends CommonRepository {
         // const totalOneDayPenaltyReward = await calculateTotalReward(PenaltyBetting, rewardTodayQuery);
         // const totalOneDayCardReward = await calculateTotalReward(CardBetting, rewardTodayQuery);
         // const totalOneDayReward = totalOneDayNumberReward + totalOneDayColourReward + totalOneDayCommunityReward + totalOneDayPenaltyReward + totalOneDayCardReward;
-        const totalOneDayReward = await helperUtil.calculateAllGameReward(
-          rewardTodayQuery,
-        );
+        const totalOneDayReward =
+          await this.colourBettingRepository.calculateTotalReward(
+            rewardTodayQuery,
+          );
 
         // One Month Reward
         // const totalOneMonthNumberReward = await calculateTotalReward(NumberBetting, rewardOneMonthQuery);
@@ -573,9 +574,10 @@ export class UserService extends CommonRepository {
         // const totalOneMonthPenaltyReward = await calculateTotalReward(PenaltyBetting, rewardOneMonthQuery);
         // const totalOneMonthCardReward = await calculateTotalReward(CardBetting, rewardOneMonthQuery);
         // const totalOneMonthReward = totalOneMonthNumberReward + totalOneMonthColourReward + totalOneMonthCommunityReward + totalOneMonthPenaltyReward + totalOneMonthCardReward;
-        const totalOneMonthReward = await helperUtil.calculateAllGameReward(
-          rewardOneMonthQuery,
-        );
+        const totalOneMonthReward =
+          await this.colourBettingRepository.calculateTotalReward(
+            rewardOneMonthQuery,
+          );
 
         // const totalOneWeekNumberReward = await calculateTotalReward(NumberBetting, rewardOneWeekQuery);
         // const totalOneWeekColourReward = await calculateTotalReward(ColourBetting, rewardOneWeekQuery);
@@ -583,9 +585,10 @@ export class UserService extends CommonRepository {
         // const totalOneWeekPenaltyReward = await calculateTotalReward(PenaltyBetting, rewardOneWeekQuery);
         // const totalOneWeekCardReward = await calculateTotalReward(CardBetting, rewardOneWeekQuery);
         // const totalOneWeekReward = totalOneWeekNumberReward + totalOneWeekColourReward + totalOneWeekCommunityReward + totalOneWeekPenaltyReward + totalOneWeekCardReward;
-        const totalOneWeekReward = await helperUtil.calculateAllGameReward(
-          rewardOneWeekQuery,
-        );
+        const totalOneWeekReward =
+          await this.colourBettingRepository.calculateTotalReward(
+            rewardOneWeekQuery,
+          );
 
         const totalRewardsDistributedOneMonth =
           await this.rewardUserRepository.countDocuments({

@@ -3,12 +3,18 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Game } from '../entities/game.entity';
 import Logger from 'src/core/Logger';
+import { GameRules } from '../entities/gameRules.entity';
+import { GameTime } from '../entities/gameTIme.entity';
 
 @Injectable()
 export default class GameRepository {
   constructor(
     @InjectModel(Game.name)
     private readonly gameModel: Model<Game>,
+    @InjectModel(GameRules.name)
+    private readonly gameRulesModel: Model<GameRules>,
+    @InjectModel(GameTime.name)
+    private readonly gameTimeModel: Model<GameTime>,
   ) {}
 
   // public async getReferralUserData(referralByCode: any): Promise<any> {
@@ -28,20 +34,20 @@ export default class GameRepository {
   //   }
   // }
 
-  // public async getColourBettingData(data: any): Promise<any> {
-  //   try {
-  //     Logger.access.info(
-  //       'colourBetting.repository --> info of getColourBettingData()',
-  //     );
-  //     return await this.colourBettingModel.find(data);
-  //   } catch (error) {
-  //     Logger.error.error(
-  //       'colourBetting.repository --> getColourBettingData() indicates error',
-  //       error.message,
-  //     );
-  //     throw new BadRequestException(error.message);
-  //   }
-  // }
+  public async getGamesData(data: any): Promise<any> {
+    try {
+      Logger.access.info(
+        'colourBetting.repository --> info of getColourBettingData()',
+      );
+      return await this.gameModel.find(data).sort({ _id: -1 });
+    } catch (error) {
+      Logger.error.error(
+        'colourBetting.repository --> getColourBettingData() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
 
   public async getSingleGameData(data: any): Promise<any> {
     try {
@@ -50,6 +56,32 @@ export default class GameRepository {
     } catch (error) {
       Logger.error.error(
         'game.repository --> getSingleGameData() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
+  public async getSingleGameRulesData(data: any): Promise<any> {
+    try {
+      Logger.access.info(
+        'game.repository --> info of getSingleGameRulesData()',
+      );
+      return await this.gameModel.findOne(data);
+    } catch (error) {
+      Logger.error.error(
+        'game.repository --> getSingleGameRulesData() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
+  public async getSingleGameTimeData(data: any): Promise<any> {
+    try {
+      Logger.access.info('game.repository --> info of getSingleGameTimeData()');
+      return await this.gameTimeModel.findOne(data);
+    } catch (error) {
+      Logger.error.error(
+        'game.repository --> getSingleGameTimeData() indicates error',
         error.message,
       );
       throw new BadRequestException(error.message);

@@ -1,5 +1,13 @@
-import { Controller } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Param,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { PeriodService } from '../services/period.service';
+import Logger from 'src/core/Logger';
 
 @Controller('period')
 export class PeriodController {
@@ -109,20 +117,51 @@ export class PeriodController {
   //   }
   // }
 
-  // @Get('/dashboard')
-  // @UsePipes(ValidationPipe)
-  // public async userDashboard(
+  // @Get('/get-periods-details-all-game')
+  // public async getPeriodsDetailsForAllGame(
   //   @Req() req: Request,
   //   @Res() res: Response,
   // ): Promise<any> {
-  //   Logger.access.info('user.controller --> info of userDashboard()');
+  //   Logger.access.info(
+  //     'period.controller --> info of getPeriodsDetailsForAllGame()',
+  //   );
   //   try {
-  //     const userDashboardData = await this.userService.userDashboard(req, res);
-  //     return userDashboardData;
+  //     const getPeriodsDetailsForAllGameData =
+  //       await this.periodService.getPeriodsDetailsForAllGame(req, res);
+  //     return getPeriodsDetailsForAllGameData;
   //   } catch (error) {
   //     console.log({ error });
   //     Logger.error.error(
-  //       'user.controller --> userDashboard() indicates error',
+  //       'period.controller --> getPeriodsDetailsForAllGame() indicates error',
+  //       error.message,
+  //     );
+  //     throw new BadRequestException(error.message);
+  //   }
+  // }
+
+  // @Get('/get-all-periods-game-wise/:gameType/:gameId')
+  // public async getAllGameRecodesGameWise(
+  //   @Req() req: Request,
+  //   @Res() res: Response,
+  //   @Param() gameId: any,
+  //   @Param() gameType: any,
+  // ): Promise<any> {
+  //   Logger.access.info(
+  //     'period.controller --> info of getAllGameRecodesGameWise()',
+  //   );
+  //   try {
+  //     const getAllGameRecodesGameWiseData =
+  //       await this.periodService.getAllGameRecodesGameWise(
+  //         req,
+  //         res,
+  //         gameId,
+  //         gameType,
+  //       );
+  //     return getAllGameRecodesGameWiseData;
+  //   } catch (error) {
+  //     console.log({ error });
+  //     Logger.error.error(
+  //       'period.controller --> getAllGameRecodesGameWise() indicates error',
   //       error.message,
   //     );
   //     throw new BadRequestException(error.message);

@@ -27,9 +27,7 @@ export default class UserRepository {
 
   public async getReferralUserData(referralByCode: any): Promise<any> {
     try {
-      Logger.access.info(
-        'user.repository --> info of getReferralUserData() for login and register users',
-      );
+      Logger.access.info('user.repository --> info of getReferralUserData()');
       return await this.userModel.findOne({
         referralCode: referralByCode,
       });
@@ -41,6 +39,14 @@ export default class UserRepository {
       throw new BadRequestException(error.message);
     }
   }
+
+  // calculateTotalReward: async (bettingModel: any, query: any) => {
+  //   const bettingData = await bettingModel.find({ ...query, is_deleted: 0 });
+  //   return bettingData.reduce(
+  //     (total: any, data: any) => total + Number(data.rewardAmount),
+  //     0,
+  //   );
+  // },
 
   public async getSingleUserData(data: any, select?: any): Promise<any> {
     try {
