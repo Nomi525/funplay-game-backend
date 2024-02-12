@@ -238,4 +238,54 @@ export default class PeriodRepository {
   //     throw new BadRequestException(error.message);
   //   }
   // }
+
+  public async getPeriodsDetailsForAllGameData(): Promise<any> {
+    try {
+      Logger.access.info(
+        'period.repository --> info of getPeriodsDetailsForAllGameData()',
+      );
+      return await this.periodModel.aggregate([
+        { $match: { is_deleted: 0 } },
+        {
+          $project: {
+            _id: 0,
+            gameId: '$gameId',
+            period: '$period',
+            periodFor: '$periodFor',
+            createdAt: '$createdAt',
+          },
+        },
+        {
+          $lookup: {
+            from: 'games',
+            localField: 'gameId',
+            foreignField: '_id',
+            as: 'game',
+          },
+        },
+        { $unwind: '$game' },
+        {
+          $project: {
+            gameName: '$game.gameName',
+            gameId: '$gameId',
+            period: '$period',
+            periodFor: '$periodFor',
+            createdAt: '$createdAt',
+          },
+        },
+        {
+          $sort: {
+            // gameId: 1,
+            createdAt: -1,
+          },
+        },
+      ]);
+    } catch (error) {
+      Logger.error.error(
+        'period.repository --> getPeriodsDetailsForAllGameData() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
 }

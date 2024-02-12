@@ -368,4 +368,26 @@ export default class ColourBettingRepository {
   //     throw new BadRequestException(error.message);
   //   }
   // }
+
+  public async calculateTotalReward(query: any): Promise<any> {
+    try {
+      Logger.access.info(
+        'colourBetting.repository --> info of calculateTotalReward()',
+      );
+      const bettingData = await this.colourBettingModel.find({
+        ...query,
+        is_deleted: 0,
+      });
+      return bettingData.reduce(
+        (total: any, data: any) => total + Number(data.rewardAmount),
+        0,
+      );
+    } catch (error) {
+      Logger.error.error(
+        'colourBetting.repository --> calculateTotalReward() indicates error',
+        error.message,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
 }

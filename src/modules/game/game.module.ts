@@ -13,6 +13,8 @@ import GameSchema, { Game } from './entities/game.entity';
 import UserSchema, { User } from '../user/entities/user.entity';
 import GameRewardSchema, { GameReward } from './entities/gameReward.entity';
 import GameRewardRepository from './repository/gameReward.repository';
+import gameRulesSchema, { GameRules } from './entities/gameRules.entity';
+import gameTimeSchema, { GameTime } from './entities/gameTIme.entity';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import GameRewardRepository from './repository/gameReward.repository';
       { name: Game.name, schema: GameSchema },
       { name: User.name, schema: UserSchema },
       { name: GameReward.name, schema: GameRewardSchema },
+      { name: GameRules.name, schema: gameRulesSchema },
+      { name: GameTime.name, schema: gameTimeSchema },
       // { name: NewTransaction.name, schema: NewTransactionSchema },
       // { name: User.name, schema: UserSchema },
     ]),
